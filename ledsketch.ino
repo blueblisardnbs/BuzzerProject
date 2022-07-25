@@ -1,6 +1,11 @@
 #include <Adafruit_NeoPixel.h>
 
-#define SPEAKERPIN         50
+#define SPEAKERPIN1         43
+#define SPEAKERPIN2         45
+#define SPEAKERPIN3         47
+#define SPEAKERPIN4         49
+
+int speakers[4] = {SPEAKERPIN1, SPEAKERPIN2, SPEAKERPIN3, SPEAKERPIN4};
 
 #define GREENPIN        22
 #define REDPIN          24
@@ -23,23 +28,23 @@ Adafruit_NeoPixel stripes[4] = {pixels1, pixels2, pixels3, pixels4};
 
 // Set-up of the buttons
 
-#define BUT1            42
-#define BUT2            43
-#define BUT3            25
-#define BUT4            44
+#define BUT1            23
+#define BUT2            25
+#define BUT3            27
+#define BUT4            29
 
 int buttons[4] = {BUT1, BUT2, BUT3, BUT4};
 
-#define BUT1LIGHT            27
-#define BUT2LIGHT            28
-#define BUT3LIGHT            29
-#define BUT4LIGHT            31
+#define BUT1LIGHT            10
+#define BUT2LIGHT            11
+#define BUT3LIGHT            12
+#define BUT4LIGHT            13
 
 int buttonlights[4] = {BUT1LIGHT, BUT2LIGHT, BUT3LIGHT, BUT4LIGHT};
 
 // Configuration of the basic parameters
 
-int lighttime = 100; // Adjust to the time the LEDs will be on during each cycle. The smaller the value is, the faster (and harder) the game will be.
+int lighttime = 140; // Adjust to the time the LEDs will be on during each cycle. The smaller the value is, the faster (and harder) the game will be.
 int slng = 2; // Change according to the length of the song (length in pixels/LEDs)
 
 #define LEN             60
@@ -77,11 +82,15 @@ String plan[4][LEN] =
   {{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{100,0,0},{0,0,0},{0,0,0},{100,0,0}},
 }; // A plan of the order and REG color in which the pixels will light up for each LED strip
 */
-  {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","G","X","X","X","X","X","X","X","X","X","X"},
-  {"R","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","R","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","B","X","X"},
-  {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","G","X","X","X","X","X","X","X","X","X","X","X","X"},
-  {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","B","X","X","X","X","X","X","X","X"},
+  {"X","X","X","X","X","X","X","X","X","X","X","X","X","R","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X",},
+  {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","G","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X",},
+  {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","B","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X",},
+  {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","B","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X",}
 };
+
+int planSounds[LEN] = 
+  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,440,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
+
 
 int r,g,b;
 
@@ -112,21 +121,24 @@ void setup() {
 
 // The program that is run
 
-void green() {
-  digitalWrite(GREENPIN, HIGH);
-  tone(SPEAKERPIN, 100);//play a pleasant tone
-}
-
-void red() {
-  digitalWrite(REDPIN, HIGH);
-  //play an unpleasant tone
-}
 
 int minimum(int a, int b){
   if(a<b){return a;}else{return b;}
 }
 
-void played(){
+void playNoSound(){
+  for(int i = 0; i < 4; i++){
+    noTone(speakers[i]);
+  }
+}
+
+void playSound(int frequency){
+  for(int i = 0; i < 4; i++){
+    tone(speakers[i], frequency);
+  }
+}
+
+void played(int turn){
   timestamp = millis();
   while(millis() - timestamp < lighttime){
     for(int i = 0; i < 4; i++){
@@ -137,23 +149,22 @@ void played(){
       }
 
       if(pressed[i] and play[i]){
-        Serial.println(digitalRead(buttons[i]));
-        tone(SPEAKERPIN, 500, lighttime);
+        Serial.println("Pressed and palyed yay");
+        Serial.println(turn);
+        playSound(planSounds[turn -1]);
       }
     }
   }
+  
   for(int i = 0; i < 4; i++){
     if(pressed[i] and play[i]){
-      noTone(SPEAKERPIN);
+      playNoSound();
     }
   }
 }
 
 void loop() {
 
-  //Serial.println(digitalRead(buttons[2]));
-  
-  
   for (int turn = 0; turn < LEN; turn++) {
     
     for(int ledstrip = 0; ledstrip < 4; ledstrip++){
@@ -200,9 +211,9 @@ void loop() {
     for(int ledstrip = 0; ledstrip < 4; ledstrip++){
       stripes[ledstrip].show();
     }
-    played();
+    played(turn);
   }
 
   delay(1000);
-  
+
 }
