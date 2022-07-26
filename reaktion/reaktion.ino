@@ -44,7 +44,7 @@ int buttonlights[4] = {BUT1LIGHT, BUT2LIGHT, BUT3LIGHT, BUT4LIGHT};
 
 // Configuration of the basic parameters
 
-int lighttime = 400; // Adjust to the time the LEDs will be on during each cycle. The smaller the value is, the faster (and harder) the game will be.
+int lighttime = 200; // Adjust to the time the LEDs will be on during each cycle. The smaller the value is, the faster (and harder) the game will be.
 int slng = 2; // Change according to the length of the song (length in pixels/LEDs)
 
 #define LEN             70
@@ -82,14 +82,15 @@ String plan[4][LEN] =
     {{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{100,0,0},{0,0,0},{0,0,0},{100,0,0}},
     }; // A plan of the order and REG color in which the pixels will light up for each LED strip
   */
-  {"X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "X", "B", "X", "X", "B", "X", "X", "X", "X", "X", "X", "R", "X", "R", "R", "X", "X", "R", "X", "X", "R", "X", "X", "X", "X", "X", "X", "G", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X",},
-  {"X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "R", "R", "R","X", "X", "X", "R", "X", "X", "R", "X", "X", "X", "X", "X", "R", "G", "X", "R", "R", "X", "R", "R", "R", "R", "X", "B", "X", "X", "X", "X", "X", "B", "X", "X", "X", "R", "X", "X", "X", "X", "X",},
-  {"X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "G", "X", "X", "G", "X", "X", "X", "X", "X", "X", "R", "X", "G", "X", "X", "X", "X", "R", "X", "X", "R", "G", "X", "X", "X", "B", "X", "X", "X", "R", "B", "X", "X", "X", "X", "X", "X", "X",},
-  {"X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "R", "R", "R","X", "X", "X", "R", "X", "X", "R", "X", "B", "B", "B", "R", "X", "X", "X", "X", "R", "X", "R", "R", "R", "R", "X", "X", "R", "G", "X", "X", "X", "X", "X", "X", "R", "X", "R", "X", "X", "X", "X",}
+
+  {"X", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "X", "B", "X", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "X", "R", "X", "X","X", "X", "X", "X", "X", "X", "X", "X", "X", "X","R", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "X", "X", "X", "X"},
+  {"X", "X", "X", "X", "X", "X", "X", "X", "X", "R","X", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "X", "X", "X", "X","G", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "G", "X", "X", "X","X", "X", "X", "R", "X", "X", "X", "B", "X", "X"},
+  {"X", "X", "G", "X", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "G", "X", "X", "X","X", "X", "X", "X", "B", "X", "X", "X", "X", "X","X", "X", "X", "R", "X", "X", "G", "X", "X", "X","X", "X", "X", "B", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "X", "X", "X", "X"},
+  {"X", "X", "X", "X", "X", "B", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "X", "X", "X", "R","X", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "X", "X", "X", "X","X", "X", "X", "X", "X", "X", "X", "X", "X", "B","X", "X", "X", "X", "X", "X", "X", "X", "X", "X"},
 };
 
 int planSounds[LEN] =
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 220, 220, 220, 0, 174.61, 261.63, 220, 174.61, 261.63, 220, 0, 329.63, 329.63, 329.63, 349.23, 261.63, 207.65, 174.61, 261.63, 220, 0, 440, 220, 220, 440, 415.30, 392, 369.99, 329.63, 349.23, 0, 233.08, 311.13, 293.66, 277.18, 261.63, 246.94, 261.63, 0, 0, 0, 0};
+{0, 0, 440, 0, 0,0, 0, 420, 0, 0,0, 0, 390, 0, 0,0, 0, 0, 0, 494,0, 0, 0, 0, 494,0, 0, 0, 0, 0, 494, 0, 0, 0, 0,0, 440, 0, 0, 0, 380, 0, 0, 0, 489,0, 0, 0, 0, 345,0, 0, 0, 0, 0,0, 0, 440, 0, 0,};
 
 int r, g, b;
 
@@ -153,7 +154,7 @@ void played(int turn) {
       if (pressed[i] and play[i] /*and (not planSounds[turn - 1] == planSounds[turn - 2])*/) {
         Serial.println("Pressed and palyed yay");
         Serial.println(turn);
-        playSound(planSounds[turn - 1]);
+        playSound(494);
       }
     }
   }
