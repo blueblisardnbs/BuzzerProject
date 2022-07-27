@@ -44,7 +44,7 @@ int buttonlights[4] = {BUT1LIGHT, BUT2LIGHT, BUT3LIGHT, BUT4LIGHT};
 
 // Configuration of the basic parameters
 
-int lighttime = 400; // Adjust to the time the LEDs will be on during each cycle. The smaller the value is, the faster (and harder) the game will be.
+int lighttime = 1000; // Adjust to the time the LEDs will be on during each cycle. The smaller the value is, the faster (and harder) the game will be.
 int slng = 2; // Change according to the length of the song (length in pixels/LEDs)
 
 #define LEN             70
